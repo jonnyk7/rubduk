@@ -131,7 +131,3 @@ catch {
 
 # Pause before exit
 Read-Host "Press Enter to exit..."
-
-
-# Pause before exit
-Read-Host "Press Enter to exit..."
